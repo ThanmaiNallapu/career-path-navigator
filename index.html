@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Career Path Navigator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🚀 Career Path Navigator</h1>
+    <p class="subtitle">
+         Discover the best career path tailored to your skills and goals
+    </p>
+
+    <form method="POST">
+        <label>Career Type:</label>
+        <select name="career_type">
+            <option value="Job">Job</option>
+            <option value="Higher Studies">Higher Studies</option>
+        </select>
+
+        <label>Degree:</label>
+        <select name="degree" required>
+            <option value="" disabled selected>Select Degree</option>
+            {% for degree in degrees %}
+            <option value="{{ degree }}">{{ degree }}</option>
+            {% endfor %}
+        </select>
+
+
+        <label>Region:</label>
+        <select name="region">
+            <option value="India">India</option>
+            <option value="Abroad">Abroad</option>
+        </select>
+
+        <label>Desired Company (Optional):</label>
+        <input type="text" name="company">
+
+        <label>Your Skills (comma separated):</label>
+        <input type="text" name="skills" placeholder="Python, SQL, Data Analysis" required>
+
+        <button type="submit">Find Careers</button>
+    </form>
+
+    {% if results %}
+        <h2>Top Recommended Careers</h2>
+
+        {% for career in results %}
+            <div class="result-card">
+                <h3>{{ career.Career }}</h3>
+                <p><strong>Category:</strong> {{ career.Category }}</p>
+                <p><strong>Required Skills:</strong> {{ career.Required_Skills }}</p>
+                <p><strong>Companies:</strong> {{ career.Companies }}</p>
+                <p><strong>Exams:</strong> {{ career.Exams }}</p>
+                <p><strong>Match Score:</strong> {{ "%.2f"|format(career.Similarity * 100) }}%</p>
+                <p><strong>Platforms:</strong> {{ career.Platforms }}</p>
+
+            </div>
+        {% endfor %}
+    {% endif %}
+
+</div>
+
+</body>
+</html>
